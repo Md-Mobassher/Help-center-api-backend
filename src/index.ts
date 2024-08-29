@@ -1,7 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 import Card from "./model/Card";
+import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+dotenv.config();
 
 const app = express();
 const port = 5000;
@@ -9,13 +11,10 @@ const port = 5000;
 app.use(express.json());
 
 mongoose
-  .connect(
-    `mongodb+srv://fullstack:cUe6Gydb3N70oOzp@cluster0.ebkpw09.mongodb.net/fullstack`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    } as ConnectOptions
-  )
+  .connect(`${process.env.DATABASE_URL}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  } as ConnectOptions)
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -81,6 +80,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
