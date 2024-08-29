@@ -1,12 +1,24 @@
 import express, { Request, Response, NextFunction } from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 import Card from "./model/Card";
+import cors from "cors";
+
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 dotenv.config();
 
 const app = express();
-const port = 5000;
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://frontend-seven-sepia.vercel.app",
+      "https://frontend-j8kmb7caw-md-mobassher-hossains-projects.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
